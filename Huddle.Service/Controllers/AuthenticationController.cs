@@ -6,5 +6,5 @@ namespace Huddle.API.Controllers;
 [Route("api/[controller]")]
 public class AuthenticationController : ControllerBase
 {
-    
+
 }
