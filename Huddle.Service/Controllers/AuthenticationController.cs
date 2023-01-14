@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace Huddle.API.Controllers;
 
-public class AuthenticationController
+[ApiController]
+[Route("api/[controller]")]
+public class AuthenticationController : ControllerBase
 {
     
 }

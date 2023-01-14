@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace Huddle.API.Controllers;
 
-public class UserGroupsController
+[ApiController]
+[Route("api/[controller]")]
+public class UserGroupsController : ControllerBase
 {
     
 }

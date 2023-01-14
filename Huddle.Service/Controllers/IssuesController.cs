@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace Huddle.API.Controllers;
 
-public class IssuesController
+[ApiController]
+[Route("api/[controller]")]
+public class IssuesController : ControllerBase
 {
     
 }
