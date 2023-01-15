@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0-preview.6.22330.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
           <PrivateAssets>all</PrivateAssets>
@@ -22,6 +23,7 @@
       <ProjectReference Include="..\Huddle.Contracts\Huddle.Contracts.csproj" />
       <ProjectReference Include="..\Huddle.DbContext\Huddle.DbContext.csproj" />
       <ProjectReference Include="..\Huddle.Interfaces\Huddle.Interfaces.csproj" />
+      <ProjectReference Include="..\Huddle.Repositories\Huddle.Repositories.csproj" />
     </ItemGroup>
 
 </Project>

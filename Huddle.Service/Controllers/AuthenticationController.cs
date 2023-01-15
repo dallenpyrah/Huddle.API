@@ -1,4 +1,5 @@
 using Huddle.Contracts;
+using Huddle.DataModels;
 using Huddle.Interfaces.ManagersInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,14 +19,14 @@ public class AuthenticationController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<BaseResponseContract<SignUpRequestContract>>> SignUp([FromBody] SignUpRequestContract signUpRequestContract)
     {
-        BaseResponseContract<SignUpResultContract> baseResponseContract =
-            new BaseResponseContract<SignUpResultContract>();
+        BaseResponseContract<User> baseResponseContract =
+            new BaseResponseContract<User>();
         
         try
         {
-            SignUpResultContract signUpResultContract = await _authenticationManager.SignUp(signUpRequestContract);
+            User user = await _authenticationManager.SignUp(signUpRequestContract);
             
-            baseResponseContract.Data = signUpResultContract;
+            baseResponseContract.Data = user;
             baseResponseContract.Message = "User created successfully";
             baseResponseContract.Success = true;
             

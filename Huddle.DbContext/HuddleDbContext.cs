@@ -1,4 +1,5 @@
 using Huddle.DataModels;
+using Huddle.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Huddle.DbContext;

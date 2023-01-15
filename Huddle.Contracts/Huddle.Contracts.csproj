@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Huddle.DataModels\Huddle.DataModels.csproj" />
+    </ItemGroup>
+
 </Project>

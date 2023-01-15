@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Huddle.DataModels\Huddle.DataModels.csproj" />
+      <ProjectReference Include="..\Huddle.Interfaces\Huddle.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>

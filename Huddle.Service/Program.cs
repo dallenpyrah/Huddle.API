@@ -1,4 +1,8 @@
+using Huddle.Business.Managers;
 using Huddle.DbContext;
+using Huddle.Interfaces.ManagersInterfaces;
+using Huddle.Interfaces.RepositoryInterfaces;
+using Huddle.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +15,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
+builder.Services.AddTransient<IAuthenticationManager, AuthenticationManager>();
+builder.Services.AddTransient<IGroupsManager, GroupsManager>();
+builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+builder.Services.AddTransient<IGroupsValidationManager, GroupsValidationManager>();
+builder.Services.AddTransient<IGroupsRepository, GroupsRepository>();
+builder.Services.AddTransient<IUsersManager, UsersManager>();
+
 
 builder.Services.AddDbContext<HuddleDbContext>(options =>
 {
@@ -25,6 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(options => options.WithOrigins("http://localhost:3000").WithMethods("GET", "POST", "DELETE", "PUT").WithHeaders("Content-Type"));
 
 app.UseHttpsRedirection();
 
