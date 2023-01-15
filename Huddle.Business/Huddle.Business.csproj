@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Huddle.Interfaces\Huddle.Interfaces.csproj" />
+    </ItemGroup>
+
 </Project>

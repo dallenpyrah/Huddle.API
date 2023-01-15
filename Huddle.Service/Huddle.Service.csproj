@@ -18,7 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Huddle.Contracts\Huddle.Contracts.csproj" />
       <ProjectReference Include="..\Huddle.DbContext\Huddle.DbContext.csproj" />
+      <ProjectReference Include="..\Huddle.Interfaces\Huddle.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>
