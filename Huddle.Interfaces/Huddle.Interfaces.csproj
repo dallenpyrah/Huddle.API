@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Huddle.Contracts\Huddle.Contracts.csproj" />
       <ProjectReference Include="..\Huddle.DataModels\Huddle.DataModels.csproj" />
     </ItemGroup>
 
