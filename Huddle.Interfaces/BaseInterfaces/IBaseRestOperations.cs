@@ -3,8 +3,8 @@ namespace Huddle.Interfaces.BaseInterfaces;
 public interface IBaseRestOperations<T>
 {
     Task<T?> GetEntityByIdAsync(int id);
-    Task<IEnumerable<T>> GetEntitiesAsync();
+    Task<IEnumerable<T>> GetEntitiesQueryableAsync(int skip, int take);
     Task<T> AddEntityAsync(T entity);
-    Task UpdateEntityAsync(T entity);
-    Task DeleteEntityAsync(int id);
+    Task<T> UpdateEntityAsync(T entity);
+    Task<T> DeleteEntityAsync(int id);
 }

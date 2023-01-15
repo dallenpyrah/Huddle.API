@@ -21,12 +21,17 @@ public class GroupsManager : IGroupsManager
         throw new NotImplementedException();
     }
 
-    public Task UpdateEntityAsync(Group entity)
+    public Task<Group> UpdateEntityAsync(Group entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteEntityAsync(int id)
+    public Task<Group> DeleteEntityAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public Task<IEnumerable<Group>> GetEntitiesQueryableAsync(int skip, int take)
     {
         throw new NotImplementedException();
     }

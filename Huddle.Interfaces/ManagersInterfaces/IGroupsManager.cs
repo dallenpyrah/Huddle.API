@@ -5,5 +5,4 @@ namespace Huddle.Interfaces.ManagersInterfaces;
 
 public interface IGroupsManager : IBaseRestOperations<Group>
 {
-    
 }

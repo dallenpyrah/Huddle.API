@@ -1,3 +1,4 @@
+using Huddle.Business.Managers;
 using Huddle.Contracts;
 using Huddle.DataModels;
 using Huddle.Interfaces.ManagersInterfaces;
@@ -10,124 +11,143 @@ namespace Huddle.API.Controllers;
 public class GroupsController : ControllerBase
 {
     private readonly IGroupsManager _groupsManager;
-    private readonly BaseResponseContract _baseResponseContract;
-
-    public GroupsController(IGroupsManager groupsManager, BaseResponseContract baseResponseContract)
+    private readonly GroupsValidationManager _groupsValidationManager;
+    public GroupsController(IGroupsManager groupsManager, GroupsValidationManager groupsValidationManager)
     {
         _groupsManager = groupsManager;
-        _baseResponseContract = baseResponseContract;
+        _groupsValidationManager = groupsValidationManager;
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAllGroups()
+    public async Task<ActionResult<BaseResponseContract<IEnumerable<Group>>>> GetAllGroupsQueryable(int skip, int take)
     {
+        BaseResponseContract<IEnumerable<Group>> baseResponseContract = new BaseResponseContract<IEnumerable<Group>>();
+        
         try
         {
-            IEnumerable<Group> groups = await _groupsManager.GetEntitiesAsync();
+            _groupsValidationManager.ValidateGetAllGroupsQueryable(skip, take);
+            
+            IEnumerable<Group> groups = await _groupsManager.GetEntitiesQueryableAsync(skip, take);
 
             if (!groups.Any())
             {
-                _baseResponseContract.Message = "No groups were found";
-                return NotFound(_baseResponseContract);
+                baseResponseContract.Message = "No groups were found";
+                return NotFound(baseResponseContract);
             }
-            
-            _baseResponseContract.Message = "Successfully found groups";
-            _baseResponseContract.Success = true;
-            _baseResponseContract.Data = groups;
-            return Ok(_baseResponseContract);
+
+            baseResponseContract.Message = "Successfully found groups";
+            baseResponseContract.Success = true;
+            baseResponseContract.Data = groups;
+            return Ok(baseResponseContract);
         }
         catch (Exception e)
         {
-            _baseResponseContract.Message = e.Message;
-            return BadRequest(_baseResponseContract);
+            baseResponseContract.Message = e.Message;
+            return BadRequest(baseResponseContract);
         }
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetGroupById(int id)
+    public async Task<ActionResult<BaseResponseContract<Group>>> GetGroupById(int id)
     {
+        BaseResponseContract<Group> baseResponseContract = new BaseResponseContract<Group>();
+        
         try
         {
+            _groupsValidationManager.ValidateId(id);
+            
             Group? group = await _groupsManager.GetEntityByIdAsync(id);
 
             if (group == null)
             {
-                _baseResponseContract.Message = "No group was found";
-                return NotFound(_baseResponseContract);
+                baseResponseContract.Message = "No group was found";
+                return NotFound(baseResponseContract);
             }
             
-            _baseResponseContract.Message = "Successfully found group";
-            _baseResponseContract.Success = true;
-            _baseResponseContract.Data = group;
-            return Ok(_baseResponseContract);
+            baseResponseContract.Message = "Successfully found group";
+            baseResponseContract.Success = true;
+            baseResponseContract.Data = group;
+            return Ok(baseResponseContract);
         }
         catch (Exception e)
         {
-            _baseResponseContract.Message = e.Message;
-            return BadRequest(_baseResponseContract);
+            baseResponseContract.Message = e.Message;
+            return BadRequest(baseResponseContract);
         }
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateGroup([FromBody] Group group)
+    public async Task<ActionResult<BaseResponseContract<Group>>> CreateGroup([FromBody] Group group)
     {
+        BaseResponseContract<Group> baseResponseContract = new BaseResponseContract<Group>();
+        
         try
         {
+            _groupsValidationManager.ValidateGroup(group);
+            
             Group? createdGroup = await _groupsManager.AddEntityAsync(group);
 
             if (createdGroup == null)
             {
-                _baseResponseContract.Message = "Group was not created";
-                return BadRequest(_baseResponseContract);
+                baseResponseContract.Message = "Group was not created";
+                return BadRequest(baseResponseContract);
             }
             
-            _baseResponseContract.Message = "Successfully created group";
-            _baseResponseContract.Success = true;
-            _baseResponseContract.Data = createdGroup;
-            return Ok(_baseResponseContract);
+            baseResponseContract.Message = "Successfully created group";
+            baseResponseContract.Success = true;
+            baseResponseContract.Data = createdGroup;
+            return Ok(baseResponseContract);
         }
         catch (Exception e)
         {
-            _baseResponseContract.Message = e.Message;
-            return BadRequest(_baseResponseContract);
+            baseResponseContract.Message = e.Message;
+            return BadRequest(baseResponseContract);
         }
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateGroup([FromBody] Group group)
+    public async Task<ActionResult<BaseResponseContract<Group>>> UpdateGroup([FromBody] Group group)
     {
+        BaseResponseContract<Group> baseResponseContract = new BaseResponseContract<Group>();
+        
         try
         {
-            await _groupsManager.UpdateEntityAsync(group);
+            Group updatedGroup = await _groupsManager.UpdateEntityAsync(group);
+
+            baseResponseContract.Message = "Successfully updated group";
+            baseResponseContract.Success = true;
+            baseResponseContract.Data = updatedGroup;
             
-            _baseResponseContract.Message = "Successfully updated group";
-            _baseResponseContract.Success = true;
-            
-            return Ok(_baseResponseContract);
+            return Ok(baseResponseContract);
         }
         catch (Exception e)
         {
-            _baseResponseContract.Message = e.Message;
-            return BadRequest(_baseResponseContract);
+            baseResponseContract.Message = e.Message;
+            return BadRequest(baseResponseContract);
         }
     }
     
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGroup(int id)
     {
+        BaseResponseContract<Group> baseResponseContract = new BaseResponseContract<Group>();
+        
         try
         {
-            await _groupsManager.DeleteEntityAsync(id);
+            _groupsValidationManager.ValidateId(id);
             
-            _baseResponseContract.Message = "Successfully deleted group";
-            _baseResponseContract.Success = true;
+            Group deletedGroup = await _groupsManager.DeleteEntityAsync(id);
             
-            return Ok(_baseResponseContract);
+            baseResponseContract.Message = "Successfully deleted group";
+            baseResponseContract.Success = true;
+            baseResponseContract.Data = deletedGroup;
+
+            return Ok(baseResponseContract);
         }
         catch (Exception e)
         {
-            _baseResponseContract.Message = e.Message;
-            return BadRequest(_baseResponseContract);
+            baseResponseContract.Message = e.Message;
+            return BadRequest(baseResponseContract);
         }
     }
 }
